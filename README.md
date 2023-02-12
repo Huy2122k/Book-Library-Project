@@ -1,8 +1,6 @@
 # Book Library management
 
-This project is create by Group 4 - Chuyen De
-testing: https://cosmic-sundae-0b3700.netlify.app/
-using accoutn and password test in Database/account.csv
+using account and password test in Database/account.csv
 
 ## 1. Local implements
 
