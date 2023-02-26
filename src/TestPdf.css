@@ -1,0 +1,31 @@
+.TestPdf__previewImg {
+    position: relative;
+}
+
+.TestPdf__previewImg:hover img {
+    opacity: 0.8;
+}
+
+.TestPdf__previewImg:hover .TestPdf__previewImg_middle {
+    opacity: 0.2;
+}
+
+.TestPdf__previewImg_middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 2.5%;
+    right: 0;
+    text-align: center;
+    width: 95%;
+    height: 99%;
+    background: lightskyblue;
+}
+
+.react-pdf__Page { display: flex; justify-content: center; }
+
+.TextField-without-border-radius fieldset {
+    border-radius: 0;
+}
