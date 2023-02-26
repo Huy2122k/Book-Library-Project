@@ -74,7 +74,7 @@ export function MyComponent() {
     const lines = page.lines.items
     for (const line of lines) {
       const str = line.str
-      if (str.indexOf(text) != -1) {
+      if (str.toLowerCase().indexOf(text) != -1) {
         ret.push(line)
       }
     }
@@ -82,19 +82,35 @@ export function MyComponent() {
     return ret
   }
 
-  const highlightTextRegion = (pageIndex, lines) => {
+  const clearHighlightTextRegion = () => {
+    if (self.rects) {
+      for (let i = 0; i < self.rects.length; i++) {
+        const element = self.rects[i]
+        
+        if (element.style.visibility == 'hidden') {
+          break;
+        }
+
+        element.style.visibility = 'hidden'
+        element.remove()
+      }
+    }
+  }
+
+  const highlightTextRegion = (pageIndex, lines, startHighlightIndex = 0) => {
     if (!self.rects) {
       self.rects = []
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 300; i++) {
         const newDiv = document.createElement('div')
         Object.assign(newDiv.style,
           {
             position: 'absolute',
             width: '200px',
             height: '50px',
-            backgroundColor: 'red',
-            opacity: 0.5,
-            visibility: 'hidden'
+            backgroundColor: '#abff32',
+            opacity: 0.3,
+            visibility: 'hidden',
+            zIndex: 100
           }
         )
         self.rects.push(newDiv)
@@ -102,20 +118,20 @@ export function MyComponent() {
       }
     }
 
-    if (!self.rect) {
-      //const newDiv = document.createElement("div");
-      self.rect = self.rects[0]
-    }
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i]
+      const rect = self.rects[i + startHighlightIndex]
+      const pageDiv = self.pagesRef[pageIndex].current.pageElement.current
+      const pageCanvas = pageDiv.childNodes[0]
 
-    console.log(self.pagesRef[pageIndex].current.pageElement.current.appendChild(self.rect));
+      pageDiv.appendChild(rect)
 
-    const line = lines[0]
-
-    self.rect.style.visibility = 'visible'
-    self.rect.style.bottom = line.transform[5] + 'px'
-    self.rect.style.left = line.transform[4] + 'px'
-    self.rect.style.height = line.height + 'px'
-    self.rect.style.width = line.width + 'px'
+      rect.style.visibility = 'visible'
+      rect.style.bottom = (line.transform[5] - 2) + 'px'
+      rect.style.left = pageCanvas.offsetLeft + line.transform[4] + 'px'
+      rect.style.height = (line.height + 2) + 'px'
+      rect.style.width = line.width + 'px'
+    }    
   }
 
   const onSearchText = async (text, pageNumber) => {
@@ -133,14 +149,33 @@ export function MyComponent() {
 
     setTextSearchTypingTimeout(
       setTimeout(async () => {
-        const startPageIndex = pageNumber - 1
-        console.log(startPageIndex)
-        const ret = await searchTextInPage(pdfPagesData[startPageIndex], text)
-        console.log(ret)
+        clearHighlightTextRegion()
 
+        let startPageIndex = pageNumber - 1
+
+        let startHighlightIndex = 0
+
+        const ret = await searchTextInPage(pdfPagesData[startPageIndex], text)
         if (ret.length != 0) {
           highlightTextRegion(startPageIndex, ret)
+          startHighlightIndex += ret.length
         }
+
+        if (startPageIndex - 1 >= 0) {
+          const retPrev = await searchTextInPage(pdfPagesData[startPageIndex - 1], text)
+          if (retPrev.length != 0) {
+            highlightTextRegion(startPageIndex - 1, retPrev, startHighlightIndex)
+            startHighlightIndex += retPrev.length
+          }
+        }
+
+        if (startPageIndex + 1 < self.pagesRef.length) {
+          const retNext = await searchTextInPage(pdfPagesData[startPageIndex + 1], text)
+          if (retNext.length != 0) {
+            highlightTextRegion(startPageIndex + 1, retNext, startHighlightIndex)
+          }
+        }
+
       }, 500)
     )
 
