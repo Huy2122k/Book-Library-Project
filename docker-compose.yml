@@ -13,8 +13,9 @@ services:
     volumes:
       - db:/var/lib/mysql
       - ./db:/tmp/test
+    hostname: db_source
     networks:
-      - backend
+      - new_be
 
   library-backend:
     depends_on:
@@ -36,9 +37,12 @@ services:
       - CLOUDINARY_NAME=$CLOUDINARY_NAME
       - CLOUDINARY_KEY=$CLOUDINARY_KEY
       - CLOUDINARY_SECRET=$CLOUDINARY_SECRET
+    volumes:
+      - ./configELK/filebeat.yml:/etc/filebeat/filebeat.yml
+    user: root
     networks:
-      - backend
-      - frontend
+      - new_fe
+      - new_be
 
   library-frontend:
     depends_on:
@@ -50,10 +54,54 @@ services:
     ports:
       - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
     networks:
-      - frontend
+      - new_fe
+
+  datawarehouse:
+    image: mysql
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DW_ROOT_PASSWORD
+      - MYSQL_DATABASE=$DW_DATABASE
+    ports:
+      - $DW_LOCAL_PORT:$DW_DOCKER_PORT
+    volumes:
+      - ./DataWarehouse/dwQuery.sql:/docker-entrypoint-initdb.d/dwQuery.sql
+    hostname: db_destination
+    networks:
+      - new_be
+
+  elk:
+    image: sebp/elk
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+      - "9600:9600"
+    volumes:
+      - ./configELK/02-beats-input.conf:/etc/logstash/conf.d/02-beats-input.conf
+      - ./configELK/kibana.yml:/opt/kibana/config/kibana.yml
+      - ./configELK/logstash.yml:/opt/logstash/config/logstash.yml
+      - ./configELK/pipelines.yml:/opt/logstash/config/pipelines.yml
+      - ./configELK/elasticsearch.yml:/etc/elasticsearch/elasticsearch.yml
+    user: root
+    hostname: elk
+    networks:
+      - new_be
+
+  etl:
+    depends_on:
+      - mysqldb
+      - library-backend
+      - elk
+    # restart: unless-stopped
+    build:
+      context: ./etl
+    networks:
+      - new_be
 
 volumes:
   db:
 networks:
-  backend:
-  frontend:
+  new_be:
+  new_fe:

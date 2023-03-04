@@ -32,7 +32,9 @@
         "nodemailer": "^6.7.5",
         "nodemon": "^2.0.15",
         "redis": "^4.1.0",
-        "sequelize": "^5.21.2"
+        "sequelize": "^5.21.2",
+        "winston": "^3.8.2",
+        "moment": "2.29.4"
     },
     "devDependencies": {
         "eslint": "^8.15.0"
