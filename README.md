@@ -76,9 +76,18 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
   CLOUDINARY_NAME=****
   CLOUDINARY_KEY=****
   CLOUDINARY_SECRET=****
+
+  DW_USER=root
+  DW_ROOT_PASSWORD=****
+  DW_DATABASE=report
+  DW_DOCKER_PORT=3306
+  DW_LOCAL_PORT=3308
+
   ```
 - to run in background: `docker-compose up -d`
+- set vm.max_map_count:`sudo sysctl -w vm.max_map_count=262144`
 - if any errors in groupby, please turn off full_group_by mode: `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`
 - in mysql db container, command: `mysql -uroot -p` with pw `****`
 - command restore: `source /tmp/test/Dump_window_production.sql;`
-- in be container run : `chown root /etc/filebeat/filebeat.yml`
+- in BE container run : `chown root /etc/filebeat/filebeat.yml`
+- run `filebeat -e` to ship log from BE server to ELK

@@ -1,4 +1,6 @@
 import mysql.connector
+import pandas as pd
+import numpy as np
 
 # Connect to source database
 source_db = mysql.connector.connect(
@@ -16,28 +18,30 @@ destination_db = mysql.connector.connect(
   database="report"
 )
 
-# Create cursors for both databases
-source_cursor = source_db.cursor()
-destination_cursor = destination_db.cursor()
+# Load data from source database into a pandas dataframe
+df_source_account = pd.read_sql('SELECT * FROM account', source_db)
+df_source_book = pd.read_sql('SELECT * FROM book', source_db)
 
-# Load new data from Account table
-source_cursor.execute("SELECT * FROM Account WHERE AccountID NOT IN (SELECT AccountID FROM destination_Account)")
-new_accounts = source_cursor.fetchall()
+# Load existing data from target database into a pandas dataframe
+df_target_account = pd.read_sql('SELECT * FROM destination_account', destination_db)
+df_target_book = pd.read_sql('SELECT * FROM destination_book', destination_db)
 
-# Load new data from Book table
-source_cursor.execute("SELECT * FROM Book WHERE BookID NOT IN (SELECT BookID FROM destination_Book)")
-new_books = source_cursor.fetchall()
+# Find new rows in source dataframe
+df_new_account = df_source_account[~df_source_account['AccountID'].isin(df_target_account['AccountID'])]
+df_new_book = df_source_book[~df_source_book['BookID'].isin(df_target_book['BookID'])]
 
-# Insert new data into destination database
-for account in new_accounts:
-    sql = "INSERT INTO destination_account (AccountID, UserName, Password, Introduction, Gender, Birthday, Address, Phone, ImageURL, Role, Status, EmailStatus, Email, IdentityStatus, IdentityNum, FrontsideURL, BacksideURL, FaceURL) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    destination_cursor.execute(sql, account)
-    destination_db.commit()
+# Replace 'nan' values with NULL
+df_new_book = df_new_book.replace({np.nan: None})
 
-for book in new_books:
-    sql = "INSERT INTO destination_book (BookID, BookName, Author, Series, Chapter, Description, Price, PublishedDate, Publisher, ImageURL) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    destination_cursor.execute(sql, book)
-    destination_db.commit()
+# Insert new rows into target database
+cursor = destination_db.cursor()
+for row in df_new_account.itertuples(index=False):
+  cursor.execute('INSERT INTO destination_account (AccountID, UserName, Password, Introduction, Gender, Birthday, Address, Phone, ImageURL, Role, Status, EmailStatus, Email, IdentityStatus, IdentityNum, FrontsideURL, BacksideURL, FaceURL) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', row)
+for row in df_new_book.itertuples(index=False):
+  cursor.execute('INSERT INTO destination_book (BookID, BookName, Author, Series, Chapter, Description, Price, PublishedDate, Publisher, ImageURL) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', row)
+
+destination_db.commit()
+cursor.close()
 
 # Close database connections
 source_db.close()

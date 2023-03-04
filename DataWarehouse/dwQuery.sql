@@ -1,29 +1,29 @@
 CREATE TABLE statistic(
   id INT AUTO_INCREMENT PRIMARY KEY,
   day DATE,
-  hour TIME,
-  create_account_id INT,
-  login_account_id INT,
+  hour INT,
+  create_account_id varchar(255),
+  login_account_id varchar(255),
   keyword_search VARCHAR(255),
   category_search VARCHAR(255),
   author_search VARCHAR(255),
   year_search INT,
   rating_search INT,
-  click_bookId INT,
-  rating_bookId INT,
+  click_bookId varchar(255),
+  rating_bookId varchar(255),
   rating FLOAT,
-  comment_bookId INT,
-  borrow_bookId INT,
-  cancel_lending_id INT,
-  confirm_bookID INT,
-  confirm_return_bookId INT,
-  wishlist_bookId INT,
+  comment_bookId varchar(255),
+  borrow_bookId varchar(255),
+  cancel_lending_id varchar(255),
+  confirm_bookID varchar(255),
+  confirm_return_bookId varchar(255),
+  wishlist_bookId varchar(255),
   uploaded_avatar INT,
   added_ID INT,
   verified_email INT
 );
 
-CREATE TABLE destination_Account (
+CREATE TABLE destination_account (
   `AccountID` varchar(255) NOT NULL,
   `UserName` varchar(127) NOT NULL,
   `Password` varchar(255) NOT NULL,
@@ -57,7 +57,8 @@ CREATE TABLE destination_book (
   `PublishedDate` datetime NOT NULL,
   `Publisher` varchar(100) NOT NULL,
   `ImageURL` varchar(1023) DEFAULT NULL,
-  PRIMARY KEY (`BookID`);
+  PRIMARY KEY (`BookID`)
+);
 
 
 
