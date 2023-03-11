@@ -54,13 +54,13 @@ exports.findAll = async (req, res) => {
     logger.info(
       "keyword_search:" +
         (req.query.search ? req.query.search : "null") +
-        " category_search:" +
+        ". category_search:" +
         (req.query.categoryFilter ? req.query.categoryFilter : "null") +
-        " author_search:" +
+        ". author_search:" +
         (req.query.authorFilter ? req.query.authorFilter : "null") +
-        " year_search:" +
+        ". year_search:" +
         (req.query.yearFilter ? req.query.yearFilter : "null") +
-        " rating_search:" +
+        ". rating_search:" +
         (req.query.ratingFilter ? req.query.ratingFilter : "null")
     );
     // bookId what is displayed
@@ -318,7 +318,7 @@ exports.addRating = async (req, res) => {
       message: "Rate successfully.",
       rating: { rating: rating },
     });
-    logger.info("rating_bookId:" + bookid + " rating:" + rating);
+    logger.info("rating_bookId:" + bookid + ". rating:" + rating);
   } catch (error) {
     console.log(error);
     logger.error("Add rating error: " + error);
@@ -344,7 +344,7 @@ exports.addComment = async (req, res) => {
       comment: result,
       message: "Comment successfully, waiting for admin approval",
     });
-    logger.info("comment_bookId:" + bookid + " comment:" + comment);
+    logger.info("comment_bookId:" + bookid + ". comment:" + comment);
   } catch (error) {
     console.log(error);
     logger.error("Add comment error: " + error);

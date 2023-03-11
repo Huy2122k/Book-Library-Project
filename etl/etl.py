@@ -60,22 +60,26 @@ def extractData(raw_data):
         print(data)
         if level == 'INFO':
             message = data[44:]
-            if 'category_search' in message:
-                index = message.find('category_search')
-                key = message[0:index].split(':')[0]
-                line[key] = message[0:index].split(':')[1]
-                message = message[index:]
-            for item in message.split():
+            # if 'category_search' in message:
+            #     index = message.find('category_search')
+            #     key = message[0:index].split(':')[0]
+            #     line[key] = message[0:index].split(':')[1]
+            #     message = message[index:]
+            
+            for item in message.split('.'):
             # if len(item.split(':')) > 1:
-                key = item.split(':')[0]
+                key = item.split(':')[0][1:]
+                # print(key)
                 values = item.split(':')[1]
-                if key == 'borrow_bookId':
+                # print(values)
+                # if key == 'borrow_bookId':
+                if len(values.split(",")) > 1:
                     for value in values.split(','):
                         line[key] = value
                         tsf_data.append(line)
                 elif key in ('uploaded_avatar','added_ID', 'verified_email'):
                     line[key] = 1
-                elif key in ('comment', 'change_pw_accountId', 'reset_pw_accountId', 'send_verification_code_successfully'):
+                elif key in ('comment', 'change_pw_accountId', 'reset_pw_accountId', 'send_verification_code_successfully, display_bookId'):
                     continue
                 else:
                     line[key] = values
