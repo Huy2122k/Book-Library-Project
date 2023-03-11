@@ -9,7 +9,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 function App() {
   return (
     <div className="App">
-      <MyComponent />
+      <MyComponent 
+        file='Effective Java, Third Edition-pages-1-12.pdf'
+        pageIndexBegin={5}
+        pagesCount={5}
+      />
     </div>
   );
 }

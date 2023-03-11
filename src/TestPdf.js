@@ -32,7 +32,7 @@ function highlightPattern(text, pattern) {
   return text.replace(pattern, (value) => `<mark>${value}</mark>`)
 }
 
-export function MyComponent() {
+export function MyComponent({ file, pageIndexBegin, pagesCount }) {
   const [pageNumber, setPageNumber] = useState(1);
   const [searchPageNumber, setSearchPageNumber] = useState(1);
   const [counter, setCounter] = useState(0)
@@ -189,7 +189,8 @@ export function MyComponent() {
       })
     })
 
-    setNumPages(docs.numPages)
+    //setNumPages(docs.numPages)
+    setNumPages(self.pagesCount)
 
     if (pages.length === 0) {
       const displayPages = []
@@ -200,7 +201,7 @@ export function MyComponent() {
 
       self.pagesRef = []
 
-      for (let i = 0; i < docs.numPages; i++) {
+      for (let i = 0; i < self.pagesCount; i++) {
         renderedPreviewsPage.push(
           null
         )
@@ -212,7 +213,7 @@ export function MyComponent() {
 
       setRenderedPageCanvasRefs(renderedPageCanvasRefs_)
 
-      for (let i = 0; i < docs.numPages; i++) {
+      for (let i = 0; i < self.pagesCount; i++) {
         const ref = renderedPageCanvasRefs_[i]
 
         displayPages.push(
@@ -230,7 +231,7 @@ export function MyComponent() {
               key={i}
               scale={1.0}
               devicePixelRatio={2.0}
-              pageNumber={i + 1} 
+              pageNumber={self.pageIndexBegin + i + 1} 
               renderTextLayer={false} 
               renderAnnotationLayer={false}
               canvasRef={ref}
@@ -238,18 +239,22 @@ export function MyComponent() {
               ref={self.pagesRef[i]}
               
               onRenderSuccess={(page) => {
-                pdfPagesData[page._pageIndex] = page
+                console.log(page._pageIndex);
+
+                let pageIndex = page._pageIndex - self.pageIndexBegin
+
+                pdfPagesData[pageIndex] = page
 
                 ref?.current?.toBlob((blob) => {
                   let temp = [...renderedPreviewsPage]
 
-                  temp[page._pageIndex] = 
+                  temp[pageIndex] = 
                     <div
                       className='TestPdf__previewImg'
                       onClick={
                         () =>  {
                           ref?.current?.scrollIntoView()
-                          setDisplayPageNumber(page._pageIndex + 1)
+                          setDisplayPageNumber(pageIndex + 1)
                         }
                       }
 
@@ -295,7 +300,14 @@ export function MyComponent() {
   /> */}
 
   //const file = 'Effective Java, Third Edition.pdf'
-  const file = 'Effective Java, Third Edition-pages-1-12.pdf'
+  //const file = 'Effective Java, Third Edition-pages-1-12.pdf'
+
+  //self.pageIndexBegin = 5;
+  //self.pageIndexEnd = 10;
+  //self.pagesCount = 5;
+
+  self.pageIndexBegin = pageIndexBegin;
+  self.pagesCount = pagesCount;
 
   const MyDivider = (
     <Divider 
