@@ -11,6 +11,8 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { Search as SearchIcon } from '@mui/icons-material';
 import PlayCircleFilledWhiteOutlinedIcon from '@mui/icons-material/PlayCircleFilledWhiteOutlined';
 
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 const TOOL_BAR_HEIGHT = '5vh'
 
 function isPositiveInteger(n) {
@@ -183,11 +185,11 @@ export function MyComponent({ file, pageIndexBegin, pagesCount }) {
   }
 
   const onDocumentLoadSuccess = (docs) => {
-    docs.getPage(2).then((page) => {
-      page.getTextContent().then((text) => {
-        console.log(text)
-      })
-    })
+    // docs.getPage(2).then((page) => {
+    //   page.getTextContent().then((text) => {
+    //     console.log(text)
+    //   })
+    // })
 
     //setNumPages(docs.numPages)
     setNumPages(self.pagesCount)
@@ -239,7 +241,7 @@ export function MyComponent({ file, pageIndexBegin, pagesCount }) {
               ref={self.pagesRef[i]}
               
               onRenderSuccess={(page) => {
-                console.log(page._pageIndex);
+                //console.log(page._pageIndex);
 
                 let pageIndex = page._pageIndex - self.pageIndexBegin
 
