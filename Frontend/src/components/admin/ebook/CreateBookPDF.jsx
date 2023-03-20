@@ -32,7 +32,7 @@ const CreateBookPDF = ({ ebookDetail, bookID, getEbookInfo }) => {
         }
         try {
             const res = await getPresigned({
-                object_key: `${bookID}.pdf`,
+                object_key: `${bookID}/${bookID}.pdf`,
                 method: 'PUT',
                 response_type: 'application/pdf'
             });
@@ -48,8 +48,9 @@ const CreateBookPDF = ({ ebookDetail, bookID, getEbookInfo }) => {
         }
         await addNewEbook({
             book_id: bookID,
-            chapter_split: chapterData['chapter-split'],
-            status: 'chapter_splitting'
+            chapters_info: chapterData['chapter-split'],
+            type_ebook: 'pdf'
+            // status: 'chapter_splitting'
         });
         await getEbookInfo();
     };

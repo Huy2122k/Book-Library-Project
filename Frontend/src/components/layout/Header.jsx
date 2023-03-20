@@ -83,6 +83,10 @@ const HeaderCustom = () => {
             key: 'books?dateSort=desc'
         },
         {
+            label: 'EBooks',
+            key: 'ebooks'
+        },
+        {
             label: 'About Us',
             key: 'about'
         }
@@ -103,6 +107,10 @@ const HeaderCustom = () => {
         {
             label: 'User Manage',
             key: 'users-manage'
+        },
+        {
+            label: 'EBooks',
+            key: 'ebooks'
         }
     ];
     const handleProfileClick = (item, key) => {

@@ -52,6 +52,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 ## 2. Docker:
 
 - add .env file:
+
   ```
   MYSQLDB_USER=root
   MYSQLDB_ROOT_PASSWORD=****
@@ -75,6 +76,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
   CLOUDINARY_KEY=****
   CLOUDINARY_SECRET=****
   ```
-- to run in background: `docker-conpose up -d`
-- if any errors in groupby, please turn off full_group_by mode: `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`
-- command restore: `source /tmp/test/library_db.sql;`
+
+- to run in background: `docker-compose up -d`
+- in mysql db container, command: `mysql -uroot -p` with pw `****`
+- command restore: `source /tmp/test/Dump_window_production.sql;`
