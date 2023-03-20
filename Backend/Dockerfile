@@ -8,4 +8,4 @@ RUN dpkg -i filebeat-8.3.3-amd64.deb
 RUN rm filebeat-8.3.3-amd64.deb
 COPY . .
 # COPY filebeat.yml /etc/filebeat/filebeat.yml
-CMD npm start
+# CMD npm start

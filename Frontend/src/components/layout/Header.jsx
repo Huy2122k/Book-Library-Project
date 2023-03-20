@@ -107,6 +107,10 @@ const HeaderCustom = () => {
         {
             label: 'User Manage',
             key: 'users-manage'
+        },
+        {
+            label: 'EBooks',
+            key: 'ebooks'
         }
     ];
     const handleProfileClick = (item, key) => {

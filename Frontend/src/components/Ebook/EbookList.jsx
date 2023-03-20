@@ -1,4 +1,4 @@
-import { FilePdfOutlined } from '@ant-design/icons';
+import { FilePdfOutlined, SoundOutlined } from '@ant-design/icons';
 import { Avatar, Button, Input, List, Space, Typography, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -166,16 +166,25 @@ const EbookList = () => {
                         )}
                         <br />
                         <br />
-                        <div>
+                        <Space size={10}>
+                            <Button
+                                type="danger"
+                                icon={<FilePdfOutlined />}
+                                href={`${process.env.REACT_APP_EBOOK_READ_UI}/${item.BookID}/0/${
+                                    item.chapters[0].pages.length
+                                }?url=${encodeURIComponent(item.chapters[0].pdf_link)}`}
+                                target="_blank">
+                                Read Ebook
+                            </Button>
                             <Button
                                 type="primary"
-                                icon={<FilePdfOutlined />}
+                                icon={<SoundOutlined />}
                                 onClick={() => {
                                     navigate('/audio-books/' + item.chapters[0]._id.$oid);
                                 }}>
-                                Read Ebook
+                                Listen Ebook
                             </Button>
-                        </div>
+                        </Space>
                     </List.Item>
                 )}
             />

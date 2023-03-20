@@ -103,17 +103,21 @@ const AudioBook = () => {
                 const highlightElement = document.querySelector(
                     `#s${highlightMetadata['sentenceId']}${i}`
                 );
-                highlightElement.classList.add('highlight');
+                if (highlightElement) {
+                    highlightElement.classList.add('highlight');
+                }
             }
             setCurrentSentenceId(highlightMetadata['sentenceId']);
-            jumpToHighlightArea(highlightMetadata.highlightAreas[0]);
+            if (highlightMetadata.highlightAreas.length) {
+                jumpToHighlightArea(highlightMetadata.highlightAreas[0]);
+            }
         }
     };
 
     // Set lại thời gian chạy khi thay đổi vị trí trang (là highlight đầu tiên của page đang hiển thị)
     const handlePageChange = (e) => {
         const highlightMetadata = metaData['sentences'].find((sentence) => {
-            return sentence.pageIndex === e.currentPage;
+            return sentence && sentence.pageIndex === e.currentPage;
         });
         if (highlightMetadata && highlightMetadata.endTime && highlightMetadata.duration) {
             setCurrentTime(highlightMetadata.endTime - highlightMetadata.duration);
