@@ -77,7 +77,7 @@ def extractData(raw_data):
                     for value in values.split(','):
                         line[key] = value
                         tsf_data.append(line)
-                elif key in ('uploaded_avatar','added_ID', 'verified_email'):
+                if key in ('uploaded_avatar','added_ID', 'verified_email'):
                     line[key] = 1
                 elif key in ('comment', 'change_pw_accountId', 'reset_pw_accountId', 'send_verification_code_successfully, display_bookId'):
                     continue

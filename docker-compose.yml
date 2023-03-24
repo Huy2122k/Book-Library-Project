@@ -84,6 +84,7 @@ services:
       - ./configELK/logstash.yml:/opt/logstash/config/logstash.yml
       - ./configELK/pipelines.yml:/opt/logstash/config/pipelines.yml
       - ./configELK/elasticsearch.yml:/etc/elasticsearch/elasticsearch.yml
+      - ./configELK/jdbc.conf:/etc/logstash/conf.d/jdbc.conf
     user: root
     hostname: elk
     networks:
