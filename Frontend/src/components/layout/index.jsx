@@ -65,22 +65,22 @@ const LayoutCustom = () => {
                                     icon: '👨‍💻',
                                     title: <i>Nguyen Xuan Huy</i>,
                                     style: { fontSize: '13px' }
-                                },
-                                {
-                                    icon: '👨‍💻',
-                                    title: <i>Tran Anh Vu</i>,
-                                    style: { fontSize: '13px' }
-                                },
-                                {
-                                    icon: '👩‍💻',
-                                    title: <i>Pathana</i>,
-                                    style: { fontSize: '13px' }
-                                },
-                                {
-                                    icon: '👨‍💻',
-                                    title: <i>Pham van Nam</i>,
-                                    style: { fontSize: '13px' }
                                 }
+                                // {
+                                //     icon: '👨‍💻',
+                                //     title: <i>Tran Anh Vu</i>,
+                                //     style: { fontSize: '13px' }
+                                // },
+                                // {
+                                //     icon: '👩‍💻',
+                                //     title: <i>Pathana</i>,
+                                //     style: { fontSize: '13px' }
+                                // },
+                                // {
+                                //     icon: '👨‍💻',
+                                //     title: <i>Pham van Nam</i>,
+                                //     style: { fontSize: '13px' }
+                                // }
                             ],
                             openExternal: true
                         },

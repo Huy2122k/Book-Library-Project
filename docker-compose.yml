@@ -53,6 +53,7 @@ services:
       - ./filebeat.log:/Backend/filebeat.log
       - ./startup.sh:/Backend/startup.sh
       - ./Backend/logfilebeat:/var/log/lib-log/
+      - ./Backend:/Backend
     user: root
     networks:
       - new_fe

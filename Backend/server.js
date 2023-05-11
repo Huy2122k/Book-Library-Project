@@ -7,15 +7,20 @@ const express = require("express");
 const cors = require("cors");
 const redis = require("redis");
 const app = express();
+const cookieParser = require('cookie-parser')
 
 var corsOptions = {
-    origin: process.env.CLIENT_ORIGIN || "http://localhost:8081",
+    origin: true, //process.env.CLIENT_ORIGIN || "http://localhost:8081",
+    credentials: true,
 };
 var clientRedis = redis.createClient(6379);
-app.use(cors());
+app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
 app.use(express.json());
+
+//use cookies
+app.use(cookieParser())
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));

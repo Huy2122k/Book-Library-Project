@@ -8,9 +8,9 @@ processors:
   - add_docker_metadata: ~
 
 output.logstash:
-  hosts: ["elk:5044"]
+  hosts: ["192.168.43.46:5044"]
 
-setup.kibana.host: "elk:5601"
+setup.kibana.host: "192.168.43.46:5601"
 
 filebeat.inputs:
   - type: log
@@ -21,5 +21,4 @@ filebeat.inputs:
     processors:
       - add_docker_metadata: ~
 
-setup.dashboards.enabled: true
-
+setup.dashboards.enabled: false

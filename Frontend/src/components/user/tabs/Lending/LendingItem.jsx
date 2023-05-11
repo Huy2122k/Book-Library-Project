@@ -66,7 +66,7 @@ const LendingItem = ({ lendDetail, ind }) => {
         }
     };
     const showModal = (lendingId) => () => {
-        setLendingQR('/lending/' + lendingId);
+        setLendingQR('http://localhost:3000/lending/' + lendingId);
         setModalVisible(true);
     };
     const onChange = (list) => {

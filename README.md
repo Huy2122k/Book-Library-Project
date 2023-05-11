@@ -80,3 +80,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 - to run in background: `docker-compose up -d`
 - in mysql db container, command: `mysql -uroot -p` with pw `****`
 - command restore: `source /tmp/test/Dump_window_production.sql;`
+docker exec -it <container> 
+mysql -uroot -p$DATABASE_PASSWORD
+source /tmp/test/library_db.sql;

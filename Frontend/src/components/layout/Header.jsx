@@ -283,6 +283,7 @@ const HeaderCustom = () => {
                 <Col xs={8} sm={10} md={6} lg={4} xl={4}>
                     {auth.user ? (
                         <div className="classProfile">
+                            <a href={process.env.REACT_APP_FORUM_URL}>Forum</a>
                             {auth.user.info.Role != 'ADMIN' && (
                                 <>
                                     <Dropdown
