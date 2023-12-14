@@ -1,9 +1,11 @@
 # Book Library management
 
-using account and password test in Database/account.csv
+## Architechture
+
+![image](https://github.com/Huy2122k/book-library-project/assets/73385973/a2bd2cce-441b-4136-9771-dcf47d5fa172)
 
 ## 1. Local implements
-
+using account and password test in Database/account.csv
 Requirements:
 
 - NodeJS v16.13.0.
